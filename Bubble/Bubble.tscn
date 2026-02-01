@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://doo6u2gx3xho7"]
+
+[ext_resource type="Script" uid="uid://bgwi2u8341nw1" path="res://Bubble/bubble.gd" id="1_sc4i0"]
+
+[node name="Bubble" type="Node2D" unique_id=1921006173]
+script = ExtResource("1_sc4i0")

@@ -7,6 +7,8 @@ const PROMPT_ITEMS_TABLE: String = "prompt_items"
 # Called when the node enters the scene tree for the first time.
 
 func _ready() -> void:
+	
+	return
 	db = SQLite.new()
 	db.path = "res://data.db"
 	db.open_db()
@@ -15,7 +17,7 @@ func _ready() -> void:
 	db.create_table(PROMPT_TABLE,create_prompts_table())
 	db.create_table(PROMPT_ITEMS_TABLE,create_prompt_items_table())
 	build_database_from_json("res://data.json")
-	db.close_db()
+	#db.close_db()
 
 func load_json(path: String) -> Dictionary:
 
