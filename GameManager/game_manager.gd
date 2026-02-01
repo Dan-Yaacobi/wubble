@@ -9,8 +9,9 @@ func _ready() -> void:
 	db.path = "res://data.db" # or res:// if editor-only
 	db.open_db()
 	db.foreign_keys = true
-
-	print(get_items_from_prompt(get_random_prompt()))
+	var prompt = get_random_prompt()
+	print("Prompt chosen randomaly: ", prompt)
+	print("Items: ", get_items_from_prompt(prompt))
 	
 func get_random_prompt() -> int:
 	var rows: Array = db.select_rows(PROMPT_TABLE,
