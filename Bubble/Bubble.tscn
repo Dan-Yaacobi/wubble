@@ -1,6 +1,106 @@
 [gd_scene format=3 uid="uid://doo6u2gx3xho7"]
 
 [ext_resource type="Script" uid="uid://bgwi2u8341nw1" path="res://Bubble/bubble.gd" id="1_sc4i0"]
+[ext_resource type="Texture2D" uid="uid://dstj0rg17wrvw" path="res://Assets/Circle.png" id="2_iauun"]
+[ext_resource type="Shader" uid="uid://cluymk382mqo0" path="res://Bubble/Bubble.gdshader" id="2_yua1t"]
 
-[node name="Bubble" type="Node2D" unique_id=1921006173]
+[sub_resource type="Shader" id="Shader_iauun"]
+code = "shader_type canvas_item;
+
+uniform float ring_radius : hint_range(0.1, 1.0, 0.01) = 0.4;
+uniform float thickness_scalar : hint_range(0.0, 0.99, 0.05) = 0.7;
+uniform float oscillation_scalar : hint_range(0.0, 0.25, 0.001) = 0.025;
+uniform float speed : hint_range(0.0, 50.0, 0.1) = 1.0;
+uniform vec4 main_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 lerp_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+
+float range_lerp(float value, float min1, float min2, float max1, float max2){
+	return min2 + (max2 - min2) * ((value - min1) / (max1 - min1));
+}
+
+void fragment() {
+	// Calculate the distance between the current pixel and the center of the unit
+	float dist = distance(UV, vec2(0.5, 0.5));
+
+	// Add a slight oscillation to the size of the ring
+	float o = cos(TIME * speed);
+	float ring_size = ring_radius + o * oscillation_scalar;
+	
+	float inner_hardness = 0.0;
+	// Solve for ring alpha channel
+	float alpha = step(dist, ring_size) * smoothstep(ring_size * (1.0 - thickness_scalar), ring_size, dist);
+	
+	// Solve w mix amount for optional color lerping
+	float w = range_lerp(o, -1.0, 1.0, 1.0, 0.0);
+	
+	// Output the final color
+	COLOR = vec4(mix(main_color.rgb, lerp_color.rgb, w), alpha );
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iauun"]
+shader = SubResource("Shader_iauun")
+shader_parameter/ring_radius = 0.99999998137332
+shader_parameter/thickness_scalar = 0.7
+shader_parameter/oscillation_scalar = 0.025
+shader_parameter/speed = 1.0
+shader_parameter/main_color = Color(1, 1, 1, 1)
+shader_parameter/lerp_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sc4i0"]
+radius = 30.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yua1t"]
+shader = ExtResource("2_yua1t")
+shader_parameter/ring_radius = 0.4
+shader_parameter/thickness_scalar = 0.7
+shader_parameter/oscillation_scalar = 0.025
+shader_parameter/speed = 1.0
+shader_parameter/main_color = Color(1, 1, 1, 1)
+shader_parameter/lerp_color = Color(1, 1, 1, 1)
+
+[node name="Bubble" type="CharacterBody2D" unique_id=1102355138]
+material = SubResource("ShaderMaterial_iauun")
+scale = Vector2(1.5, 1.5)
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_sc4i0")
+
+[node name="Button" type="Button" parent="." unique_id=1629417441]
+offset_left = -1.0
+offset_top = -4.0
+offset_right = 41.5
+offset_bottom = 34.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=226516770]
+position = Vector2(20, 14.5)
+shape = SubResource("CircleShape2D_sc4i0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1605612447]
+material = SubResource("ShaderMaterial_yua1t")
+position = Vector2(20, 14.5)
+texture = ExtResource("2_iauun")
+
+[node name="Control" type="Control" parent="." unique_id=1888955323]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Control" unique_id=1949218465]
+layout_mode = 0
+offset_left = -2.0
+offset_right = 92.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "dog"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=381939635]
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

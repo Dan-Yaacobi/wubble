@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://b3k483xttgebq"]
+
+[ext_resource type="Script" uid="uid://cji0ktf61nl6d" path="res://game.gd" id="1_u44n3"]
+[ext_resource type="PackedScene" uid="uid://dk2hjdvsao834" path="res://LevelManager/LevelManager.tscn" id="2_sb48q"]
+[ext_resource type="PackedScene" uid="uid://bljoccl5fqt8j" path="res://GameManager/GameManager.tscn" id="3_t88pq"]
+[ext_resource type="Script" uid="uid://dop1a3ldj6qy1" path="res://audio_stream_player_2d.gd" id="4_sb48q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u44n3"]
+size = Vector2(289, 237.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sb48q"]
+size = Vector2(5, 800)
+
+[node name="Game" type="Node2D" unique_id=1145303677]
+script = ExtResource("1_u44n3")
+
+[node name="LevelManager" parent="." unique_id=1958807941 instance=ExtResource("2_sb48q")]
+
+[node name="GameManager" parent="." unique_id=1758968304 instance=ExtResource("3_t88pq")]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1769891270]
+
+[node name="Category" type="Label" parent="HUD" unique_id=1443395332]
+offset_left = 143.0
+offset_top = 13.0
+offset_right = 397.0
+offset_bottom = 51.0
+
+[node name="Score" type="Label" parent="HUD" unique_id=857165645]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="StartButton" type="Button" parent="." unique_id=2036105726]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "start"
+
+[node name="SpawnArea" type="Area2D" parent="." unique_id=40077440]
+collision_layer = 0
+collision_mask = 0
+
+[node name="SpawnShape" type="CollisionShape2D" parent="SpawnArea" unique_id=2021465271]
+position = Vector2(0, 209.375)
+shape = SubResource("RectangleShape2D_u44n3")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1605061002]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2081013508]
+position = Vector2(0, 3)
+script = ExtResource("4_sb48q")
+
+[node name="RightBorder" type="StaticBody2D" parent="." unique_id=314352092]
+position = Vector2(271, 0)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBorder" unique_id=465160171]
+shape = SubResource("RectangleShape2D_sb48q")
+
+[node name="LeftBorder" type="StaticBody2D" parent="." unique_id=1004819109]
+position = Vector2(-270, 1)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBorder" unique_id=1763065520]
+shape = SubResource("RectangleShape2D_sb48q")
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

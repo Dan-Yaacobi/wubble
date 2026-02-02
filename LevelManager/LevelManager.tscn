@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dk2hjdvsao834"]
+
+[ext_resource type="Script" uid="uid://rvrv1a8evi8q" path="res://LevelManager/level_manager.gd" id="1_5l1xc"]
+
+[node name="LevelManager" type="Node2D" unique_id=1958807941]
+script = ExtResource("1_5l1xc")
+
+[node name="SummonTimer" type="Timer" parent="." unique_id=934789202]

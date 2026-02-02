@@ -15,12 +15,26 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Wubble"
+run/main_scene="uid://b3k483xttgebq"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*uid://yth6cme3y1fl"
+
+[display]
+
+window/size/viewport_width=540
+window/size/viewport_height=840
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")
+
+[layer_names]
+
+2d_physics/layer_2="Bubbles"
 
 [rendering]
 
