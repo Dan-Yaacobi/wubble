@@ -36,13 +36,12 @@ func random_point_in_rect_shape() -> Vector2:
 		randf_range(-shape_size.x, shape_size.x),
 		randf_range(-shape_size.y, shape_size.y)
 	)
-	print(local_point)
 	return global_xform * local_point
 
 func spawn_bubble(_bubble: Bubble) -> void:
 	if _bubble:
-		add_child(_bubble)
 		_bubble.global_position = random_point_in_rect_shape()
+		add_child(_bubble)
 
 func add_point() -> void:
 	score_value += 1
